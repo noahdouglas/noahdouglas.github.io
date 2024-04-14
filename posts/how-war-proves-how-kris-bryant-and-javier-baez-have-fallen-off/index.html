@@ -9,7 +9,7 @@
 <meta name="author" content="Noah Douglas">
 <meta name="dcterms.date" content="2024-04-12">
 
-<title>Noah Douglas’s sports data site - How WAR proves Kris Bryant and Javier Baez have fallen off.</title>
+<title>Noah Douglas’s sports data site - How WAR proves Kris Bryant and Javier Báez have fallen off.</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">How WAR proves Kris Bryant and Javier Baez have fallen off.</h1>
+      <h1 class="title">How WAR proves Kris Bryant and Javier Báez have fallen off.</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">baseball</div>
               </div>
@@ -188,7 +188,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>INSERT WRITING HERE</p>
+<p>The 2015-2019 Chicago Cubs had the potential to become a dynasty. After winning the 2016 World Series and reaching the National League Championship Series the year prior, the attention they were getting was impressive.</p>
+<p>That roster consisted of several young MLB stars including the names of Anthony Rizzo, Willson Contreras, Ben Zobrist, Kris Bryant and even Javier Báez. While each of those players were stars then, it’s become evident that many of their best seasons may be behind them.</p>
+<p>Two players in particular were key players cogs in the Cubs lineup - Javier Báez and Kris Bryant. While in Chicago from 2015-2019, each player was essential to the team’s success. Kris Bryant won Rookie of the Year in 2015 and the Most Valuable Player award in 2016. However, the Cubs did not retain the star as his contract neared expiration. Javier Báez was in the same boat. He too starred on the Cubs and in 2018 finished second in the NL MVP voting, coming up just short to Christian Yelich of the Brewers.</p>
+<p>However, that was in the past. Today, Kris Bryant and Javier Báez play for different teams and struggle to have any impact on the game. After finding a lot of success inside of Wrigley Field, the two batters now find themselves well below average in several hitting metrics. The most noticeable of which – hitting for average.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -259,38 +262,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(G <span class="sc">&gt;</span><span class="dv">100</span>, PA<span class="sc">&gt;</span><span class="dv">500</span>)<span class="sc">|&gt;</span></span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PlayerSeason, BA, Season, Name)</span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>Qualifiers<span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">mean</span>(BA))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 1
-  `mean(BA)`
-       &lt;dbl&gt;
-1      0.267</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Qualifiers, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>OverallBA, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>SeasonAverage, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Bryant, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#0E3386"</span>)<span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>Baez, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#CC3433"</span>)<span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span>Baez, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#CC3433"</span>)<span class="sc">+</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>Bryant, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#0E3386"</span>)<span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>OverallBA, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>SeasonAverage, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">"Season"</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Batting Average"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"These two former Cubs don't hit for average anymore."</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"&lt;span style = 'color:#0E3386;'&gt;Kris Bryant&lt;/span&gt; and &lt;span style = 'color:#CC3433;'&gt;Javier Báez&lt;/span&gt; both starred on the Cubs' World Series roster. However, now they both find themselves hitting below league average. </span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">    Note: 2020 stats omitted and all players must play in 50 games per season to qualify."</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Baseball Reference | By: Noah Douglas"</span>)<span class="sc">+</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Qualifiers, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>OverallBA, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>SeasonAverage, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Bryant, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#0E3386"</span>)<span class="sc">+</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>Baez, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#CC3433"</span>)<span class="sc">+</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span>Baez, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#CC3433"</span>)<span class="sc">+</span> </span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>Bryant, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>BA, <span class="at">group=</span>Name), <span class="at">color=</span><span class="st">"#0E3386"</span>)<span class="sc">+</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>OverallBA, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span>SeasonAverage, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">"Season"</span>,</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Batting Average"</span>,</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"These two former Cubs don't hit for average anymore."</span>,</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"&lt;span style = 'color:#0E3386;'&gt;Kris Bryant&lt;/span&gt; and &lt;span style = 'color:#CC3433;'&gt;Javier Báez&lt;/span&gt; both starred on the Cubs' World Series roster. However, now they both find themselves hitting below league average. </span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="st">    Note: 2020 stats omitted and all players must play in 50 games per season to qualify."</span>,</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Baseball Reference | By: Noah Douglas"</span>)<span class="sc">+</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -300,27 +293,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>Another metric that indicates Bryant and Báez’s fall offs is Wins Above Replacement (WAR). WAR indicates how much better than player is compared to their replacement. For this instance, Kris Bryant and Javier Báez proved to be some of the best players in baseball. While their WAR indicated their importance to the Cubs from 205-2019, there has been a stark cliff-dive from the two players since 2021.</p>
+<p>The Cubs organization was scrutinezed for not retaining either player before free agnecy before ultimately trading them boht at the 2021 trade deadline in July. However, now seeing the numbers, it’s clear how the Cubs got out of two bad contracts.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>WARLeadersStacked, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(Name, WAR), <span class="at">weight=</span> WAR, <span class="at">fill=</span>era)) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#0E3386"</span>,<span class="st">"#CC3433"</span>))<span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span> <span class="st">"Player Name"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Combined WAR Total"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Báez and Bryant on the Cubs were amongst the best."</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"When evaluating their WAR statistics, it's evident how good they were before the 2021</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">  season. Now away from Chicago, each have struggled to have the same impact."</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Baseball Reference | By: Noah Douglas"</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>WARLeadersStacked, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(Name, WAR), <span class="at">weight=</span> WAR, <span class="at">fill=</span>era)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#0E3386"</span>,<span class="st">"#CC3433"</span>))<span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span> <span class="st">"Player Name"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Combined WAR Total"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Báez and Bryant on the Cubs were amongst the best."</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"When evaluating their WAR statistics, it's evident how good they were before the 2021</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">  season. Now away from Chicago, each have struggled to have the same impact."</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Baseball Reference | By: Noah Douglas"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -330,73 +325,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>The Cubs organization was scrutinezed for not retaining either player before free agnecy before ultimately trading them boht at the 2021 trade deadline in July. However, now seeing the numbers, it’s clear how the Cubs got out of two bad contracts. When compared to other star players, it becomes blatant that the two players are not worth their money whatsoever. While Kris Bryant has had injury issues in Colorado and only played in 49 games in 2022, he still brought a negative WAR value to his team. Thus indicating that Rockies were better off without their big ticketed player valued at $27 million.</p>
+<p>Báez isn’t worth his contract either as he made $20 million to only have a 2.4 WAR and made $22 million to have a WAR value of 0.6. These metrics prove just how disappointing each have been the last few years.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>salary<span class="ot">&lt;-</span> WARera<span class="sc">|&gt;</span>  <span class="fu">filter</span>(Name <span class="sc">==</span> <span class="st">"Mookie Betts"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Bryce Harper"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Mike Trout"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Paul Goldschmidt"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Kris Bryant"</span> <span class="sc">|</span> Name<span class="sc">==</span> <span class="st">"Javier Báez"</span> <span class="sc">|</span> Name<span class="sc">==</span> <span class="st">"Shohei Ohtani"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Season<span class="sc">==</span> <span class="st">"2022"</span> <span class="sc">|</span> Season<span class="sc">==</span><span class="st">"2023"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PlayerSeason, WAR, Salary, Season, Name)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>salary<span class="sc">|&gt;</span> </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(WAR)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>PlayerSeason) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Name, Season, WAR, Salary) <span class="sc">|&gt;</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Salary =</span> <span class="st">"Salary"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">WAR =</span> <span class="st">"WAR"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Season =</span> <span class="st">"Season"</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Kris Bryant and Javier Báez are not worth their contracts."</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each player has made over $18 million since 2022, but after being compared to other baseball stars, their WAR doesn't support their price."</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#0E3386"</span>),</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Name <span class="sc">==</span> <span class="st">"Kris Bryant"</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#0E3386"</span>),</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Name <span class="sc">==</span> <span class="st">"Javier Báez"</span>)</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"title"</span>)</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span> <span class="fu">tab_style</span> (</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"subtitle"</span>)</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note=</span> <span class="fu">md</span>(<span class="st">"**By:** Noah Douglas | **Source:** Baseball Reference"</span>)</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>salary<span class="ot">&lt;-</span> WARera<span class="sc">|&gt;</span>  <span class="fu">filter</span>(Name <span class="sc">==</span> <span class="st">"Mookie Betts"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Bryce Harper"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Mike Trout"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Paul Goldschmidt"</span> <span class="sc">|</span> Name <span class="sc">==</span> <span class="st">"Kris Bryant"</span> <span class="sc">|</span> Name<span class="sc">==</span> <span class="st">"Javier Báez"</span> <span class="sc">|</span> Name<span class="sc">==</span> <span class="st">"Shohei Ohtani"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Season<span class="sc">==</span> <span class="st">"2022"</span> <span class="sc">|</span> Season<span class="sc">==</span><span class="st">"2023"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PlayerSeason, WAR, Salary, Season, Name)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>salary<span class="sc">|&gt;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(WAR)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>PlayerSeason) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Name, Season, WAR, Salary) <span class="sc">|&gt;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Salary =</span> <span class="st">"Salary"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">WAR =</span> <span class="st">"WAR"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Season =</span> <span class="st">"Season"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Kris Bryant and Javier Báez are not worth their contracts."</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each player has made over $18 million since 2022, but after being compared to other baseball stars, their WAR doesn't support their price."</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#0E3386"</span>),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Name <span class="sc">==</span> <span class="st">"Kris Bryant"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#0E3386"</span>),</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Name <span class="sc">==</span> <span class="st">"Javier Báez"</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"title"</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span> <span class="fu">tab_style</span> (</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"subtitle"</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note=</span> <span class="fu">md</span>(<span class="st">"**By:** Noah Douglas | **Source:** Baseball Reference"</span>)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
-<div id="qinvshosxi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qinvshosxi table {
+<div id="annmbwmmcu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#annmbwmmcu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qinvshosxi thead, #qinvshosxi tbody, #qinvshosxi tfoot, #qinvshosxi tr, #qinvshosxi td, #qinvshosxi th {
+#annmbwmmcu thead, #annmbwmmcu tbody, #annmbwmmcu tfoot, #annmbwmmcu tr, #annmbwmmcu td, #annmbwmmcu th {
   border-style: none;
 }
 
-#qinvshosxi p {
+#annmbwmmcu p {
   margin: 0;
   padding: 0;
 }
 
-#qinvshosxi .gt_table {
+#annmbwmmcu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -422,12 +419,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_caption {
+#annmbwmmcu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qinvshosxi .gt_title {
+#annmbwmmcu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -439,7 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#qinvshosxi .gt_subtitle {
+#annmbwmmcu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -451,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#qinvshosxi .gt_heading {
+#annmbwmmcu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -463,13 +460,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_bottom_border {
+#annmbwmmcu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_col_headings {
+#annmbwmmcu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -484,7 +481,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_col_heading {
+#annmbwmmcu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -504,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#qinvshosxi .gt_column_spanner_outer {
+#annmbwmmcu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -516,15 +513,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#qinvshosxi .gt_column_spanner_outer:first-child {
+#annmbwmmcu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qinvshosxi .gt_column_spanner_outer:last-child {
+#annmbwmmcu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qinvshosxi .gt_column_spanner {
+#annmbwmmcu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -536,11 +533,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#qinvshosxi .gt_spanner_row {
+#annmbwmmcu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qinvshosxi .gt_group_heading {
+#annmbwmmcu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -566,7 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#qinvshosxi .gt_empty_group_heading {
+#annmbwmmcu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -581,15 +578,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#qinvshosxi .gt_from_md > :first-child {
+#annmbwmmcu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qinvshosxi .gt_from_md > :last-child {
+#annmbwmmcu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qinvshosxi .gt_row {
+#annmbwmmcu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -608,7 +605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#qinvshosxi .gt_stub {
+#annmbwmmcu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -621,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#qinvshosxi .gt_stub_row_group {
+#annmbwmmcu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -635,15 +632,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#qinvshosxi .gt_row_group_first td {
+#annmbwmmcu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qinvshosxi .gt_row_group_first th {
+#annmbwmmcu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qinvshosxi .gt_summary_row {
+#annmbwmmcu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -653,16 +650,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#qinvshosxi .gt_first_summary_row {
+#annmbwmmcu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_first_summary_row.thick {
+#annmbwmmcu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qinvshosxi .gt_last_summary_row {
+#annmbwmmcu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -672,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_grand_summary_row {
+#annmbwmmcu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -682,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#qinvshosxi .gt_first_grand_summary_row {
+#annmbwmmcu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -692,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_last_grand_summary_row_top {
+#annmbwmmcu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -702,11 +699,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_striped {
+#annmbwmmcu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qinvshosxi .gt_table_body {
+#annmbwmmcu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -715,7 +712,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_footnotes {
+#annmbwmmcu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -729,7 +726,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_footnote {
+#annmbwmmcu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -738,7 +735,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#qinvshosxi .gt_sourcenotes {
+#annmbwmmcu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -752,7 +749,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#qinvshosxi .gt_sourcenote {
+#annmbwmmcu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -760,63 +757,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#qinvshosxi .gt_left {
+#annmbwmmcu .gt_left {
   text-align: left;
 }
 
-#qinvshosxi .gt_center {
+#annmbwmmcu .gt_center {
   text-align: center;
 }
 
-#qinvshosxi .gt_right {
+#annmbwmmcu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qinvshosxi .gt_font_normal {
+#annmbwmmcu .gt_font_normal {
   font-weight: normal;
 }
 
-#qinvshosxi .gt_font_bold {
+#annmbwmmcu .gt_font_bold {
   font-weight: bold;
 }
 
-#qinvshosxi .gt_font_italic {
+#annmbwmmcu .gt_font_italic {
   font-style: italic;
 }
 
-#qinvshosxi .gt_super {
+#annmbwmmcu .gt_super {
   font-size: 65%;
 }
 
-#qinvshosxi .gt_footnote_marks {
+#annmbwmmcu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qinvshosxi .gt_asterisk {
+#annmbwmmcu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qinvshosxi .gt_indent_1 {
+#annmbwmmcu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qinvshosxi .gt_indent_2 {
+#annmbwmmcu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qinvshosxi .gt_indent_3 {
+#annmbwmmcu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qinvshosxi .gt_indent_4 {
+#annmbwmmcu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qinvshosxi .gt_indent_5 {
+#annmbwmmcu .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -933,6 +930,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>While the Rockies and Tigers pray their “star” players return to their Chicago numbers, it is clear the Cubs avoided disaster in paying for either of these fan-favorites.</p>
 
 
 
