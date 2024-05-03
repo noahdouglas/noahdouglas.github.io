@@ -196,161 +196,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalt)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbump)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>standings<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"rankingsbydate.csv"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>bucksplace<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span> <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>bucks<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"bucks.csv"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>playersgood<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"select24.csv"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>teamstats<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"teamstats.csv"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>buckscoaches<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"buckscoaches.csv"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>records<span class="ot">&lt;-</span>buckscoaches <span class="sc">|&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Coach)<span class="sc">|&gt;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Coach, W, L)<span class="sc">|&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Coach<span class="sc">==</span><span class="st">"Mike Budenholzer"</span> <span class="sc">|</span> Coach<span class="sc">==</span><span class="st">"Adrian Griffin"</span> <span class="sc">|</span> Coach<span class="sc">==</span><span class="st">"Doc Rivers"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wins=</span> <span class="fu">sum</span>(W),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Losses=</span> <span class="fu">sum</span>(L)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>coaches<span class="ot">&lt;-</span>buckscoaches <span class="sc">|&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Coach)<span class="sc">|&gt;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wins=</span> <span class="fu">sum</span>(W),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">Losses=</span> <span class="fu">sum</span>(L)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dumbbell</span>(</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>coaches,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y=</span>Coach, <span class="at">x=</span>Losses, <span class="at">xend=</span>Wins),</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span> <span class="dv">3</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"grey"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour_x =</span> <span class="st">"red"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour_xend =</span> <span class="st">"green"</span>)<span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dumbbell</span>(</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>records,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y=</span>Coach, <span class="at">x=</span>Losses, <span class="at">xend=</span>Wins))<span class="sc">+</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Milwaukee Bucks' head coach records"</span>, </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Bucks are paying three head coaches for &lt;span style = 'color:green;'&gt;wins&lt;/span&gt; yet, the new coach has recorded more &lt;span style = 'color:red;'&gt;losses&lt;/span&gt; than wins."</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By: Noah Douglas Source: Basketball Reference"</span>,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Coaching Record"</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Registered S3 methods overwritten by 'ggalt':
-  method                  from   
-  grid.draw.absoluteGrob  ggplot2
-  grobHeight.absoluteGrob ggplot2
-  grobWidth.absoluteGrob  ggplot2
-  grobX.absoluteGrob      ggplot2
-  grobY.absoluteGrob      ggplot2</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbump)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>standings<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"rankingsbydate.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2385 Columns: 3
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl  (1): Rank
-date (1): Date
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bucksplace<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span> <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bucks<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"bucks.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 21 Columns: 28
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Player
-dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>playersgood<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"select24.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 735 Columns: 31
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (4): Player, Pos, Tm, Player-additional
-dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>teamstats<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"teamstats.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 31 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>buckscoaches<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"buckscoaches.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-Rows: 18 Columns: 17
-── Column specification
-──────────────────────────────────────────────────────── Delimiter: "," chr
-(1): Coach dbl (16): Rk, From, To, Yrs, G...6, W, L, W/L%, W &gt; .500, Plyfs,
-G...12, Pla...
-ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `G` -&gt; `G...6`
-• `G` -&gt; `G...12`</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>records<span class="ot">&lt;-</span>buckscoaches <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Coach)<span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Coach, W, L)<span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Coach<span class="sc">==</span><span class="st">"Mike Budenholzer"</span> <span class="sc">|</span> Coach<span class="sc">==</span><span class="st">"Adrian Griffin"</span> <span class="sc">|</span> Coach<span class="sc">==</span><span class="st">"Doc Rivers"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wins=</span> <span class="fu">sum</span>(W),</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Losses=</span> <span class="fu">sum</span>(L)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>coaches<span class="ot">&lt;-</span>buckscoaches <span class="sc">|&gt;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Coach)<span class="sc">|&gt;</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Wins=</span> <span class="fu">sum</span>(W),</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Losses=</span> <span class="fu">sum</span>(L)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dumbbell</span>(</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>coaches,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y=</span>Coach, <span class="at">x=</span>Losses, <span class="at">xend=</span>Wins),</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span> <span class="dv">3</span>,</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"grey"</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour_x =</span> <span class="st">"red"</span>,</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour_xend =</span> <span class="st">"green"</span>)<span class="sc">+</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dumbbell</span>(</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>records,</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y=</span>Coach, <span class="at">x=</span>Losses, <span class="at">xend=</span>Wins))<span class="sc">+</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Milwaukee Bucks' head coach records"</span>, </span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Bucks are paying three head coaches for &lt;span style = 'color:green;'&gt;wins&lt;/span&gt; yet, the new coach has recorded more &lt;span style = 'color:red;'&gt;losses&lt;/span&gt; than wins."</span>,</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By: Noah Douglas Source: Basketball Reference"</span>,</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Coaching Record"</span></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using the `size` aesthetic with geom_segment was deprecated in ggplot2 3.4.0.
-ℹ Please use the `linewidth` aesthetic instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -365,78 +267,78 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>griffin<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date<span class="sc">&lt;=</span><span class="fu">as.Date</span>(<span class="st">"2024-01-23"</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>rivers<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date<span class="sc">&gt;=</span><span class="fu">as.Date</span>(<span class="st">"2024-01-29"</span>))</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>griffinerabucks<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>griffineraceltics<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"BOS"</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>griffineraKnicks<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"NYK"</span>)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>griffinerateams<span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(griffinerabucks, griffineraceltics, griffineraKnicks)</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>riverserabucks<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>riverseraceltics<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"BOS"</span>)</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>riverseraknicks<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"NYK"</span>)</span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>riverserateams<span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(riverserabucks, riverseraceltics, riverseraknicks)</span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>bump1<span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffin, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffin, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffinerabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffinerabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bump</span>(<span class="at">data=</span>griffineraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffineraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffineraKnicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffineraKnicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_text</span>(<span class="at">data =</span> griffinerateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">min</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">-</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> griffinerateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">max</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">+</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>()<span class="sc">+</span></span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Adrian Griffin"</span>)</span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>bump2<span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>rivers, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
-<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>rivers, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
-<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>riverserabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
-<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverserabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
-<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bump</span>(<span class="at">data=</span>riverseraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
-<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverseraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
-<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>riverseraknicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
-<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverseraknicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
-<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_text</span>(<span class="at">data =</span> riverserateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">min</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">-</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> riverserateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">max</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">+</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>()<span class="sc">+</span></span>
-<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Doc Rivers"</span>)</span>
-<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a> bump1<span class="sc">/</span>bump2 <span class="sc">+</span></span>
-<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>   <span class="fu">plot_annotation</span>(</span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"A successful rookie coach canned for a seasoned veteran coach"</span>,</span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Bucks were 30-13 before firing Adrian Griffin. They however worsened with Doc Rivers at the helm."</span>,</span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Basketball Reference | By Noah Douglas"</span></span>
-<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">&amp;</span> </span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
-<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
-<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>griffin<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date<span class="sc">&lt;=</span><span class="fu">as.Date</span>(<span class="st">"2024-01-23"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rivers<span class="ot">&lt;-</span>standings<span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date<span class="sc">&gt;=</span><span class="fu">as.Date</span>(<span class="st">"2024-01-29"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>griffinerabucks<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>griffineraceltics<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"BOS"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>griffineraKnicks<span class="ot">&lt;-</span>griffin<span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"NYK"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>griffinerateams<span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(griffinerabucks, griffineraceltics, griffineraKnicks)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>riverserabucks<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"MIL"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>riverseraceltics<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"BOS"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>riverseraknicks<span class="ot">&lt;-</span>rivers<span class="sc">|&gt;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team<span class="sc">==</span><span class="st">"NYK"</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>riverserateams<span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(riverserabucks, riverseraceltics, riverseraknicks)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>bump1<span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffin, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffin, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffinerabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffinerabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bump</span>(<span class="at">data=</span>griffineraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffineraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>griffineraKnicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>griffineraKnicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_text</span>(<span class="at">data =</span> griffinerateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">min</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">-</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> griffinerateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">max</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">+</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>()<span class="sc">+</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Adrian Griffin"</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>bump2<span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>rivers, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>rivers, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"lightgrey"</span>)<span class="sc">+</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>riverserabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverserabucks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#00471B"</span>)<span class="sc">+</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bump</span>(<span class="at">data=</span>riverseraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverseraceltics, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#007A33"</span>)<span class="sc">+</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bump</span>(<span class="at">data=</span>riverseraknicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>riverseraknicks, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Rank, <span class="at">size=</span>.<span class="dv">5</span>), <span class="at">color=</span><span class="st">"#F58426"</span>)<span class="sc">+</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_text</span>(<span class="at">data =</span> riverserateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">min</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">-</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> riverserateams <span class="sc">|&gt;</span> <span class="fu">filter</span>(Date <span class="sc">==</span> <span class="fu">max</span>(Date)), <span class="fu">aes</span>(<span class="at">x =</span> Date <span class="sc">+</span> <span class="fl">1.5</span>, <span class="at">y=</span>Rank, <span class="at">label =</span> Team), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>()<span class="sc">+</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Doc Rivers"</span>)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a> bump1<span class="sc">/</span>bump2 <span class="sc">+</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>   <span class="fu">plot_annotation</span>(</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"A successful rookie coach canned for a seasoned veteran coach"</span>,</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Bucks were 30-13 before firing Adrian Griffin. They however worsened with Doc Rivers at the helm."</span>,</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Basketball Reference | By Noah Douglas"</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">&amp;</span> </span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_textbox_simple</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -452,95 +354,83 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>players23<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"playerstats23"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 679 Columns: 31
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (4): Player, Pos, Tm, Player-additional
-dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>select23<span class="ot">&lt;-</span>players23<span class="sc">|&gt;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Player<span class="sc">==</span><span class="st">"Jrue Holiday"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Giannis Antetokounmpo"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Khris Middleton"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jayson Tatum"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Damian Lillard"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"LeBron James"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jaylen Brown"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Season=</span><span class="dv">2023</span>)<span class="sc">|&gt;</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Player, <span class="st">`</span><span class="at">FG%</span><span class="st">`</span>, PTS, MP, G, Season)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>selectgood24<span class="ot">&lt;-</span>playersgood<span class="sc">|&gt;</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(Player<span class="sc">==</span><span class="st">"Jrue Holiday"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Giannis Antetokounmpo"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Khris Middleton"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jayson Tatum"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Damian Lillard"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"LeBron James"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jaylen Brown"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Season=</span><span class="dv">2024</span>)<span class="sc">|&gt;</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">select</span>(Player, <span class="st">`</span><span class="at">FG%</span><span class="st">`</span>, PTS, MP, G, Season)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>selectplayers<span class="ot">&lt;-</span><span class="fu">bind_rows</span>(select23, selectgood24)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>selectplayers<span class="sc">|&gt;</span> </span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">FG%</span><span class="st">`</span>))<span class="sc">|&gt;</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">|&gt;</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">FG%</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Shooting Percentage"</span>,</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">PTS =</span> <span class="st">"Points Scored"</span>,</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">MP=</span> <span class="st">"Minutes Played"</span>,</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">G=</span> <span class="st">"Games"</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Giannis Antetokounmpo"</span>))<span class="sc">|&gt;</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Khris Middleton"</span>))<span class="sc">|&gt;</span></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Damian Lillard"</span>)</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_header</span>(</span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The Bucks' star players had noticeable differences between the two seasons."</span>,</span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each of the star players from the Bucks had major differences between the different coaches. However, the big trade didn't benefit the Bucks like it should have."</span></span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">tab_style</span>(</span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"title"</span>)</span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">tab_style</span>(</span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"subtitle"</span>))<span class="sc">|&gt;</span></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**By:** Noah Douglas  |  **Source:** Basketball Reference"</span>)</span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>players23<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"playerstats23"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>select23<span class="ot">&lt;-</span>players23<span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Player<span class="sc">==</span><span class="st">"Jrue Holiday"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Giannis Antetokounmpo"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Khris Middleton"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jayson Tatum"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Damian Lillard"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"LeBron James"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jaylen Brown"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Season=</span><span class="dv">2023</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Player, <span class="st">`</span><span class="at">FG%</span><span class="st">`</span>, PTS, MP, G, Season)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>selectgood24<span class="ot">&lt;-</span>playersgood<span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(Player<span class="sc">==</span><span class="st">"Jrue Holiday"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Giannis Antetokounmpo"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Khris Middleton"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jayson Tatum"</span><span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Damian Lillard"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"LeBron James"</span> <span class="sc">|</span> Player<span class="sc">==</span><span class="st">"Jaylen Brown"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Season=</span><span class="dv">2024</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">select</span>(Player, <span class="st">`</span><span class="at">FG%</span><span class="st">`</span>, PTS, MP, G, Season)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>selectplayers<span class="ot">&lt;-</span><span class="fu">bind_rows</span>(select23, selectgood24)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>selectplayers<span class="sc">|&gt;</span> </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">FG%</span><span class="st">`</span>))<span class="sc">|&gt;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">|&gt;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">FG%</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Shooting Percentage"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">PTS =</span> <span class="st">"Points Scored"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">MP=</span> <span class="st">"Minutes Played"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">G=</span> <span class="st">"Games"</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Giannis Antetokounmpo"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Khris Middleton"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#00471B"</span>),</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> Player <span class="sc">==</span> <span class="st">"Damian Lillard"</span>)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_header</span>(</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The Bucks' star players had noticeable differences between the two seasons."</span>,</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each of the star players from the Bucks had major differences between the different coaches. However, the big trade didn't benefit the Bucks like it should have."</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">tab_style</span>(</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"title"</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">tab_style</span>(</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">align =</span> <span class="st">"left"</span>),</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_title</span>(<span class="st">"subtitle"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**By:** Noah Douglas  |  **Source:** Basketball Reference"</span>)</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
-<div id="vlgnzjqzyn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#vlgnzjqzyn table {
+<div id="bzfrtpfchr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bzfrtpfchr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#vlgnzjqzyn thead, #vlgnzjqzyn tbody, #vlgnzjqzyn tfoot, #vlgnzjqzyn tr, #vlgnzjqzyn td, #vlgnzjqzyn th {
+#bzfrtpfchr thead, #bzfrtpfchr tbody, #bzfrtpfchr tfoot, #bzfrtpfchr tr, #bzfrtpfchr td, #bzfrtpfchr th {
   border-style: none;
 }
 
-#vlgnzjqzyn p {
+#bzfrtpfchr p {
   margin: 0;
   padding: 0;
 }
 
-#vlgnzjqzyn .gt_table {
+#bzfrtpfchr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -566,12 +456,12 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-left-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_caption {
+#bzfrtpfchr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#vlgnzjqzyn .gt_title {
+#bzfrtpfchr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -583,7 +473,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-bottom-width: 0;
 }
 
-#vlgnzjqzyn .gt_subtitle {
+#bzfrtpfchr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -595,7 +485,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-top-width: 0;
 }
 
-#vlgnzjqzyn .gt_heading {
+#bzfrtpfchr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -607,13 +497,13 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-right-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_bottom_border {
+#bzfrtpfchr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_col_headings {
+#bzfrtpfchr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -628,7 +518,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-right-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_col_heading {
+#bzfrtpfchr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -648,7 +538,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   overflow-x: hidden;
 }
 
-#vlgnzjqzyn .gt_column_spanner_outer {
+#bzfrtpfchr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -660,15 +550,15 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 4px;
 }
 
-#vlgnzjqzyn .gt_column_spanner_outer:first-child {
+#bzfrtpfchr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vlgnzjqzyn .gt_column_spanner_outer:last-child {
+#bzfrtpfchr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vlgnzjqzyn .gt_column_spanner {
+#bzfrtpfchr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -680,11 +570,11 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   width: 100%;
 }
 
-#vlgnzjqzyn .gt_spanner_row {
+#bzfrtpfchr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#vlgnzjqzyn .gt_group_heading {
+#bzfrtpfchr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -710,7 +600,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   text-align: left;
 }
 
-#vlgnzjqzyn .gt_empty_group_heading {
+#bzfrtpfchr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -725,15 +615,15 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   vertical-align: middle;
 }
 
-#vlgnzjqzyn .gt_from_md > :first-child {
+#bzfrtpfchr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vlgnzjqzyn .gt_from_md > :last-child {
+#bzfrtpfchr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vlgnzjqzyn .gt_row {
+#bzfrtpfchr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -752,7 +642,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   overflow-x: hidden;
 }
 
-#vlgnzjqzyn .gt_stub {
+#bzfrtpfchr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -765,7 +655,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 5px;
 }
 
-#vlgnzjqzyn .gt_stub_row_group {
+#bzfrtpfchr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -779,15 +669,15 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   vertical-align: top;
 }
 
-#vlgnzjqzyn .gt_row_group_first td {
+#bzfrtpfchr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vlgnzjqzyn .gt_row_group_first th {
+#bzfrtpfchr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#vlgnzjqzyn .gt_summary_row {
+#bzfrtpfchr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -797,16 +687,16 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 5px;
 }
 
-#vlgnzjqzyn .gt_first_summary_row {
+#bzfrtpfchr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_first_summary_row.thick {
+#bzfrtpfchr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vlgnzjqzyn .gt_last_summary_row {
+#bzfrtpfchr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -816,7 +706,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-bottom-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_grand_summary_row {
+#bzfrtpfchr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -826,7 +716,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 5px;
 }
 
-#vlgnzjqzyn .gt_first_grand_summary_row {
+#bzfrtpfchr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -836,7 +726,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-top-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_last_grand_summary_row_top {
+#bzfrtpfchr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -846,11 +736,11 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-bottom-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_striped {
+#bzfrtpfchr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vlgnzjqzyn .gt_table_body {
+#bzfrtpfchr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -859,7 +749,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-bottom-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_footnotes {
+#bzfrtpfchr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -873,7 +763,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-right-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_footnote {
+#bzfrtpfchr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -882,7 +772,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 5px;
 }
 
-#vlgnzjqzyn .gt_sourcenotes {
+#bzfrtpfchr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -896,7 +786,7 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   border-right-color: #D3D3D3;
 }
 
-#vlgnzjqzyn .gt_sourcenote {
+#bzfrtpfchr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -904,63 +794,63 @@ dbl (27): Rk, Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%...
   padding-right: 5px;
 }
 
-#vlgnzjqzyn .gt_left {
+#bzfrtpfchr .gt_left {
   text-align: left;
 }
 
-#vlgnzjqzyn .gt_center {
+#bzfrtpfchr .gt_center {
   text-align: center;
 }
 
-#vlgnzjqzyn .gt_right {
+#bzfrtpfchr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vlgnzjqzyn .gt_font_normal {
+#bzfrtpfchr .gt_font_normal {
   font-weight: normal;
 }
 
-#vlgnzjqzyn .gt_font_bold {
+#bzfrtpfchr .gt_font_bold {
   font-weight: bold;
 }
 
-#vlgnzjqzyn .gt_font_italic {
+#bzfrtpfchr .gt_font_italic {
   font-style: italic;
 }
 
-#vlgnzjqzyn .gt_super {
+#bzfrtpfchr .gt_super {
   font-size: 65%;
 }
 
-#vlgnzjqzyn .gt_footnote_marks {
+#bzfrtpfchr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#vlgnzjqzyn .gt_asterisk {
+#bzfrtpfchr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vlgnzjqzyn .gt_indent_1 {
+#bzfrtpfchr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vlgnzjqzyn .gt_indent_2 {
+#bzfrtpfchr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vlgnzjqzyn .gt_indent_3 {
+#bzfrtpfchr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vlgnzjqzyn .gt_indent_4 {
+#bzfrtpfchr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vlgnzjqzyn .gt_indent_5 {
+#bzfrtpfchr .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
